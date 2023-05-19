@@ -1,5 +1,5 @@
-export const kunal = (req, res) => {
-    res.send("Sending Message from Kunal Function");
+export const Madhuri = (req, res) => {
+    res.send("Sending Message from Madhuri Function");
 }
 export const Swaraj = (req, res) => {
     res.send('Sending Message from Swaraj Function')
