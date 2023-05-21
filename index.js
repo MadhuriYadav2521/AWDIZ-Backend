@@ -11,7 +11,7 @@ app.use(express.json()); // data to parse
 app.use('/api/v1', router);
 
 
-// app.get('/madhuri', Madhuri);
+app.get('/madhuri', Madhuri);
 // app.get('/anu', Anu);
 // app.get('/abhi', Abhi);
 // app.get('/kirshna', Krishnan);
