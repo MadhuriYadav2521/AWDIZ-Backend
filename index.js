@@ -21,8 +21,6 @@ app.use('/api/v1', router);
 // app.put();
 // app.delete();
 
-
-
 // app.listen(8000); // port
 
 app.listen(8000, () => console.log("Working on port 8000")); // port
