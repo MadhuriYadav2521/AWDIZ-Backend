@@ -7,7 +7,7 @@
 
 
 // hoisting
-// var sname; //declaration
+// var sname  = "abc"  //declaration
 // var sname = "Swaraj"
 // console.log(sname);
 // let lname = "let";
