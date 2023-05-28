@@ -1,4 +1,6 @@
+import { response } from "express";
 import Products from "../modals/Products.js";
+import Users from "../modals/Users.js";
 
 export const addProduct = async (req, res) => {
     try {
@@ -16,6 +18,20 @@ export const addProduct = async (req, res) => {
         return res.send(product);
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const getAllProducts = async (req, res) => {
+    try{
+        const response = await Products.find({}).exec()
+        if(response){
+            return res.send(response);
+        }else{
+            return res.send("Products not found!")
+        }
+
+    }catch(error){
+        return res.send(error);
     }
 }
 
