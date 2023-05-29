@@ -22,7 +22,7 @@ export const login =  async(req, res) => {
     }
 }
 
-export const getUserByEmail = async (req, res) => {
+export const updateUserName = async (req, res) => {
     try {
         const {email,name } = req.body;
         if (!email) return res.send("Email not found!")
@@ -77,3 +77,17 @@ export const register = async (req, res) => {
     }
 }
 
+export const getUserByEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.send("Email not found!")
+        const response = await Users.find({ email }).exec();
+        if (response) {
+            return res.send(response[0])
+        } else {
+            return res.send("User not found!")
+        }
+    } catch (error) {
+        return res.send(error)
+    }
+}
