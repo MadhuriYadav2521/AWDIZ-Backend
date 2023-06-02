@@ -62,8 +62,9 @@ export const updateUserName = async (req, res) => {
         const response = await Users.find({ email }).exec();
         console.log(response);
         if (response) {
-            const res = await Users.updateOne({ email }, { $set: { name: name } });
-            await res.save();
+            // const res = await Users.updateOne({ email }, { $set: { name: name } });
+            const user = await Users.findOneAndUpdate({ email }, { name: name  }).exec();
+            await user.save();
             return res.send("record updated")
             // return res.send(response[0])
         } else {
