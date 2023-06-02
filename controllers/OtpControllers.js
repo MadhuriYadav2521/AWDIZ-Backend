@@ -34,28 +34,30 @@ import Users from '../modals/Users.js';
 //     }
 // }
 
-export const otpNumberRegistration = async (req, res) =>{
+export const otpRegistration = async (req, res) =>{
     try{
-        const {number} = req.body;
+        const {number, email} = req.body;
         if(!number) return res.send("number not found.")
-        // if(!email) return res.send("email not found.")
+        if(!email) return res.send("email not found.")
         // var code = uuidv4();
         var codeforNumber = uuidv4();
-        // var forEmail = uuidv4();
+        var codeforEmail = uuidv4();
         // res.send(code);
 
         const isNummberPresent = await Users.find({number}).exec();
         if(isNummberPresent.length) return res.send("Number already used")
         
-        // const isEmailPresent = await Users.find({email}).exec();
-        // if(isEmailPresent.length) return res.send("Email already used")
+        const isEmailPresent = await Users.find({email}).exec();
+        if(isEmailPresent.length) return res.send("Email already used")
 
         const user = new Users({
-            // email : email,
+            email : email,
             number : number,
             // otp : code
             otpForNumber : codeforNumber,
-            isNumberVerified : false
+            otpForEmail : codeforEmail,
+            isNumberVerified : false,
+            isEmailVerified : false
 
             
         })
@@ -66,38 +68,6 @@ export const otpNumberRegistration = async (req, res) =>{
         return res.send(error);
     }
 }
-
-export const otpEmailRegistration = async (req, res) =>{
-    try{
-        const { number,email} = req.body;
-        if(!number) return res.send("number not found.")
-        if(!email) return res.send("email is required")
-        // var code = uuidv4();
-        // var forNumber = uuidv4();
-        var codeforEmail = uuidv4();
-        // res.send(code);
-
-        const isNummberPresent = await Users.find({number}).exec();
-        // if(isNummberPresent.length) return res.send("Number already used")
-        
-        // const isEmailPresent = await Users.find({email}).exec();
-        if(isNummberPresent[0].number==number){
-            const user = await  Users.insert({number},{ email: email, otpForEmail : codeforEmail} )
-            console.log(user);
-            await user.save();
-            res.send("Check your mobile email for otp.")
-        }else{
-            return res.send("number is wrong")
-        } 
-
-
-       
-
-    }catch(error){
-        return res.send(error);
-    }
-}
-
 
 
 export const otpCkeckForNumber = async (req, res) => {
