@@ -126,3 +126,86 @@ export const otpCkeckForEmail = async (req, res) => {
         return res.send(error);
     }
 }
+
+
+export const otpLogin = async (req, res) => {
+    try {
+        const { email, number } = req.body;
+        if (!email) return res.send("Email is required!")
+        if (!number) return res.send("Number is required!")
+
+        const user = await Users.find({ email, number }).exec();
+        if (!user) return res.send("User is not found!");
+        console.log(user, "user")
+        const userId = user[0]?._id;
+        // const code = uuidv4();
+        const codeForLoginEmail = uuidv4();
+        const codeForLoginNumber = uuidv4();
+        // crate another code
+        const updateUser = await Users.findByIdAndUpdate({ _id: userId },
+             {loginOtpForEmail: codeForLoginEmail,codeForLoginNumber : codeForLoginNumber,
+                isloginEmailVerified: false, isloginNumberVerified: false}).exec(); // update the 2 scheamas
+        await updateUser.save();
+        res.send("Check you email or number for otp.");
+
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+
+export const loginOtpCheckForEmail = async (req, res) => {
+    try {
+        const { otp, number, email } = req.body;
+        if (!otp) return res.send("Otp not found!")
+        if (!number) return res.send("Number not found!")
+        if (!email) return res.send("Email not found!")
+
+        const user = await Users.find({ number, email }).exec();
+
+        if (user[0].loginOtpForEmail == otp) {
+            const user = await Users.findOneAndUpdate({ email }, { isloginEmailVerified: true }).exec();
+            await user.save();
+            return res.send("Login Successful.")
+        }
+        return res.send('Otp is wrong!');
+    } catch (error) {
+        return res.send(error)
+    }
+}
+export const loginOtpCheckForNumber = async (req, res) => {
+    try {
+        const { otp, number, email } = req.body;
+        if (!otp) return res.send("Otp not found!")
+        if (!number) return res.send("Number not found!")
+        if (!email) return res.send("Email not found!")
+
+        const user = await Users.find({ number, email }).exec();
+
+        if (user[0].codeForLoginNumber == otp) {
+            const user = await Users.findOneAndUpdate({ email }, { isloginNumberVerified: true }).exec();
+            await user.save();
+            return res.send("Login Successful.")
+        }
+        return res.send('Otp is wrong!');
+    } catch (error) {
+        return res.send(error)
+    }
+}
+// }export const otpCheckLogin = async (req, res) => {
+//     try {
+//         const { otp, number, email } = req.body;
+//         if (!otp) return res.send("Otp not found!")
+//         if (!number) return res.send("Number not found!")
+//         if (!email) return res.send("Email not found!")
+
+//         const user = await Users.find({ number, email }).exec();
+
+//         if (user[0].loginOtp == otp) {
+//             return res.send("Login Successful.")
+//         }
+//         return res.send('Otp is wrong!');
+//     } catch (error) {
+//         return res.send(error)
+//     }
+// }

@@ -11,7 +11,15 @@ const User = new Schema({
     isNumberVerified : { type: Boolean, default: false },
     isEmailVerified : { type: Boolean, default: false },
     otpForNumber : String, 
-    otpForEmail : String 
+    otpForEmail : String ,
+    // loginOtp: String
+    loginOtpForEmail: String,
+    codeForLoginNumber: String,
+    isloginNumberVerified : { type: Boolean, default: false },
+    isloginEmailVerified : { type: Boolean, default: false }
+
+
+    // 2 new shcema of number and emial with otp
     
 });
 
