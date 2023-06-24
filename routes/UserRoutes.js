@@ -11,7 +11,7 @@ var router = express.Router();
 router.post('/login', login);
 router.post('/register', register);
 router.post('/updateUserName',checkEmail,checkName,updateUserName)
-router.post('/getUserByEmail',getUserByEmail)
+router.get('/getUserByEmail',getUserByEmail)
 router.post('/add-product', addProduct);
 router.post('/otpRegistration', otpRegistration);
 router.post('/otpCkeckForNumber', otpCkeckForNumber);

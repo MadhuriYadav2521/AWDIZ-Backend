@@ -80,7 +80,7 @@ export const getUserByEmail = async (req, res) => {
         const { email } = req.body;
         if (!email) return res.send("Email not found!")
         const response = await Users.find({ email }).exec();
-        if (response) {
+        if (response.length) {
             return res.send(response[0])
         } else {
             return res.send("User not found!")
